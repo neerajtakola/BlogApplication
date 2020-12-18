@@ -13,7 +13,7 @@ public class PostTag {
     private Post post;
 
     @ManyToOne
-    @MapsId("tagId")
+    @MapsId("tag")
     private Tag tag;
 
     private Calendar createdAt = Calendar.getInstance();

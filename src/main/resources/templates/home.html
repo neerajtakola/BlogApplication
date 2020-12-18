@@ -1,10 +1,68 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>Front Page</title>
+    <title>Express-Pen down your thoughts.</title>
+    <style>
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            margin: 2em 0;
+        }
+        .main {
+            display: grid;
+            grid-template-columns: 50% 50%;
+            gap: 1em 1.1em;
+            margin-top: 1em;
+        }
+        .main>div {
+            border: solid 1px #000;
+            padding: .6em;
+        }
+
+    </style>
+
+
+
 </head>
+
 <body>
-Hi, this is the first page of the application.
+<div class="header">
+    <div>
+        <h4>My Blog Application</h4> Hi there
+    </div>
+    <div>
+        <form action="">
+            <label>Filter</label>
+            <select id="filter" name="filter">
+                <option value="Date">Date</option>
+                <option value="Author">Author</option>
+            </select>
+            <input type="submit">
+        </form>
+        <form action="">
+            <input type="text" placeholder="Search.." name="searchText">
+            <button type="submit">Run Search</button>
+        </form>
+        <a href="login">Login</a>
+        <a href="new-post">New Post</a>
+    </div>
+</div>
+<h4>Hot Topics :</h4>
+<div class="main">
+    <div th:each="post : ${posts}" class="blog">
+        <span><b>Title</b></span><p th:text="${post.title}"></p>
+        <span><b>Excerpt</b></span><p th:text="${post.excerpt}"></p>
+        <span><b>Author</b></span><p th:text="${post.author.name}"></p>
+        <span><b>Date</b></span><p th:text="${post.createdAt}"></p>
+        <a th:href="@{/view-post/{id}(id = ${post.id})}">View Post</a>
+        <a th:href="@{delete/{id}(id =${post.id})}">Delete Post</a>
+        <a th:href="@{update/{id}(id =${post.id})}">Update Post</a>
+    </div>
+
+
+</div>
+
+
 </body>
 </html>

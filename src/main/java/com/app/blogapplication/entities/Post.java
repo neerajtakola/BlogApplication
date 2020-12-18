@@ -1,9 +1,10 @@
 package com.app.blogapplication.entities;
 
+import org.hibernate.annotations.Type;
+
 import javax.persistence.*;
-import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.List;
+
 
 @Entity
 public class Post {
@@ -12,16 +13,11 @@ public class Post {
     private int id;
     private String title;
     private String excerpt;
+    @Lob
+    @Type(type = "org.hibernate.type.TextType")
     private String content;
-
     @ManyToOne
     private User author;
-
-    @OneToMany(mappedBy = "post",cascade = CascadeType.ALL,orphanRemoval = true)
-    private List<Comment> comments = new ArrayList<>();
-
-    @OneToMany(mappedBy = "post",cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<PostTag> tags = new ArrayList<>();
     private Calendar publishedAt;
     private boolean isPublished;
     private Calendar createdAt = Calendar.getInstance();
@@ -63,23 +59,6 @@ public class Post {
         return author;
     }
 
-    @Override
-    public String toString() {
-        return "Post{" +
-                "id=" + id +
-                ", title='" + title + '\'' +
-                ", excerpt='" + excerpt + '\'' +
-                ", content='" + content + '\'' +
-                ", author=" + author +
-                ", comments=" + comments +
-                ", tags=" + tags +
-                ", publishedAt=" + publishedAt +
-                ", isPublished=" + isPublished +
-                ", createdAt=" + createdAt +
-                ", updatedAt=" + updatedAt +
-                '}';
-    }
-
     public void setAuthor(User author) {
         this.author = author;
     }
@@ -116,4 +95,18 @@ public class Post {
         this.updatedAt = updatedAt;
     }
 
+    @Override
+    public String toString() {
+        return "Post{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", excerpt='" + excerpt + '\'' +
+                ", content='" + content + '\'' +
+                ", author=" + author.getName() +
+                ", publishedAt=" + publishedAt +
+                ", isPublished=" + isPublished +
+                ", createdAt=" + createdAt +
+                ", updatedAt=" + updatedAt +
+                '}';
+    }
 }

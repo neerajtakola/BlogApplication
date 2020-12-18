@@ -1,52 +1,81 @@
 package com.app.blogapplication.controller;
 
 import com.app.blogapplication.entities.Post;
-import com.app.blogapplication.services.PostService;
+import com.app.blogapplication.services.IPostService;
+import com.app.blogapplication.services.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 
-@RequestMapping(value = "/show-posts")
 @Controller
 public class PostController {
 
+    private final IPostService postService;
+    private final IUserService userService;
+
     @Autowired
-    private PostService postService;
-
-    public PostController(){
-        System.out.println("Post");
-    }
-
-
-    @RequestMapping(value = "/show")
-    public void showPosts(){
-        System.out.println("inside post");
-        for(Post p : postService.getPosts()){
-            System.out.println(p);
+    public PostController(IPostService postService, IUserService userService){
+        this.postService = postService;
+        this.userService = userService;
         }
+
+    @RequestMapping(value = "/")
+    public String showPosts(Model model, @RequestParam Optional<String> searchText){
+        model.addAttribute("posts",postService.getPosts(searchText.orElse("_")));
+        return "home";
     }
 
-    @RequestMapping(value = "/update")
-    public void updatePost(){
-        Post post = postService.getPosts().get(0);
-        post.setContent("Hi world. This content has been updated");
-        postService.saveOrUpdatePost(post);
+    @RequestMapping(value = "/view-post/{id}")
+    public String showPost(@PathVariable("id") int id, Model model){
+        model.addAttribute("post",postService.showPostById(id));
+        return "post/show-post";
     }
 
-    @RequestMapping(value = "/submit")
-    public void submitPost(){
+
+    @GetMapping(value = "/new-post")
+    public String newPost(){
+        return "post/edit";
+    }
+
+    @PostMapping(value = "/new-post")
+    public String submitPost(@RequestParam String title,@RequestParam String excerpt,@RequestParam String content) throws IOException {
         Post post = new Post();
-        post.setContent("This is the 3rd post");
+        post.setTitle(title);
+        post.setContent(content);
+        post.setExcerpt(excerpt);
         post.setPublished(true);
-        postService.saveOrUpdatePost(post);
+        postService.savePost(post);
+        return "redirect:/";
     }
 
-    @RequestMapping(value = "/delete")
-    public void deletePost(){
-        postService.deletePost(2);
+
+    @RequestMapping(value = "/delete/{id}")
+    public String deletePost(@PathVariable("id") int id) throws IOException {
+        postService.deletePostById(id);
+        return "redirect:/";
+    }
+
+    @RequestMapping(value = "/update/{id}")
+    public String updatePost(@PathVariable("id") int id, Model model){
+        Post post = postService.showPostById(id);
+        model.addAttribute("post",post);
+        return "post/update";
+    }
+
+    @PostMapping(value="/update/{id}")
+        public String updatePost(@ModelAttribute("post") Post post){
+        postService.savePost(post);
+        return "redirect:/";
     }
 }
