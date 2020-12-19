@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Post</title>
+    <style>
+        .title {
+            display: flex;
+            justify-content: space-between;
+        }
+        .post {
+            text-align: center;
+            border:2px solid black;
+        }
+        .post h1 {
+            font-size: 3em;
+            margin-bottom: .2em;
+        }
+        .post p {
+            text-align: left;
+            margin-top: 2em;
+            padding: 0 2em;
+        }
+    </style>
+</head>
+<body>
+<section class="title">
+    <h4>My Blog Application</h4>
+    <a href="/login">Login</a>
+</section>
+<section class="post">
+    <h1 th:text="${post.title}"></h1>
+    <span th:text="${post.author.name}" class="author"></span>
+    <p th:text="${post.content}" class="post-text">
+    </p>
+</section>
+<center><a th:href="@{/comments/{id}(id=${post.id})}">View Comments</a></center>
+</body>
+</html>

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <title>Update Post</title>
+    <style>
+        div {
+            align: center;
+        }
+        .edit-post {
+            padding: 10px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 50px;
+        }
+        input, textarea {
+            width: 100%;
+            padding: 10px 10px;
+            border: solid 1px #000;
+            margin: 5px 0;
+        }
+    </style>
+</head>
+<body>
+<h1 align="center">New/Edit Post</h1>
+<form action="#"
+      th:action="@{/update/{id}(id=${post.id})}"
+      th:object="${post}"
+      method="post" class="edit-post">
+    <label for="title">Title</label>
+    <input type="text" th:field="*{title}" id="title" placeholder="title">
+    <label for="excerpt">Excerpt</label>
+    <input type="text" th:field="*{excerpt}" id="excerpt" placeholder="excerpt">
+    <input type="hidden" th:field="*{author}" id="author" placeholder="author">
+    <label for="content">Content</label>
+    <textarea th:field="*{content}" id="content" placeholder="content" cols="30" rows="15">
+    </textarea>
+    <button type="submit" >Update Post</button>
+</form>
+</body></html>

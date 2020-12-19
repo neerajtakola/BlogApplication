@@ -1,6 +1,7 @@
 package com.app.blogapplication.entities;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.util.Calendar;
 
 @Entity
@@ -8,16 +9,16 @@ public class Comment {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
-    @ManyToOne
-    private User user;
-
+    private String name;
+    private String email;
     @ManyToOne
     @JoinColumn(name= "post_id")
     private Post post;
 
-    private String comment;
+    private String content;
     private Calendar createdAt = Calendar.getInstance();
     private Calendar updatedAt;
+
 
     public int getId() {
         return id;
@@ -27,20 +28,36 @@ public class Comment {
         this.id = id;
     }
 
-    public User getUser() {
-        return user;
+    public String getName() {
+        return name;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public String getComment() {
-        return comment;
+    public String getEmail() {
+        return email;
     }
 
-    public void setComment(String comment) {
-        this.comment = comment;
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public Post getPost() {
+        return post;
+    }
+
+    public void setPost(Post post) {
+        this.post = post;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
     }
 
     public Calendar getCreatedAt() {
@@ -57,5 +74,18 @@ public class Comment {
 
     public void setUpdatedAt(Calendar updatedAt) {
         this.updatedAt = updatedAt;
+    }
+
+    @Override
+    public String toString() {
+        return "Comment{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", email='" + email + '\'' +
+                ", post=" + post +
+                ", content='" + content + '\'' +
+                ", createdAt=" + createdAt +
+                ", updatedAt=" + updatedAt +
+                '}';
     }
 }

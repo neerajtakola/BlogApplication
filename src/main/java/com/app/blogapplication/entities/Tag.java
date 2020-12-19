@@ -1,6 +1,7 @@
 package com.app.blogapplication.entities;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -10,7 +11,7 @@ public class Tag {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
-    @Column(name = "Tag_Name")
+
     private String name;
 
     @OneToMany(mappedBy = "tag", cascade = CascadeType.ALL, orphanRemoval = true)
@@ -35,6 +36,14 @@ public class Tag {
         this.name = name;
     }
 
+    public List<PostTag> getPosts() {
+        return posts;
+    }
+
+    public void setPosts(List<PostTag> posts) {
+        this.posts = posts;
+    }
+
     public Calendar getCreatedAt() {
         return createdAt;
     }
@@ -49,5 +58,16 @@ public class Tag {
 
     public void setUpdatedAt(Calendar updatedAt) {
         this.updatedAt = updatedAt;
+    }
+
+    @Override
+    public String toString() {
+        return "Tag{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", posts=" + posts +
+                ", createdAt=" + createdAt +
+                ", updatedAt=" + updatedAt +
+                '}';
     }
 }

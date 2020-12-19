@@ -1,27 +1,45 @@
 package com.app.blogapplication.services;
 
-import com.app.blogapplication.dao.PostRepository;
+import com.app.blogapplication.dao.IPostRepository;
 import com.app.blogapplication.entities.Post;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 
 @Service
-public class PostService {
+public class PostService implements  IPostService{
 
     @Autowired
-    private PostRepository postRepository;
+    private IPostRepository postRepository;
 
-    public List<Post> getPosts(){
-        return postRepository.findAll();
+    @Override
+    public List<Post> getPosts(String text, Pageable pageable) {
+        return postRepository.findAll(text,findPaginated(0,2));
     }
 
-    public void saveOrUpdatePost(Post post){
+    @Override
+    public void savePost(Post post) {
         postRepository.save(post);
     }
 
-    public void deletePost(int id){
-        postRepository.deleteById(id);
+    @Override
+    public Post getPost(int id) {
+       return postRepository.getOne(id);
     }
+
+    @Override
+    public void deletePost(Post post) {
+        postRepository.delete(post);
+    }
+
+
+    @Override
+    public Pageable findPaginated(int pageNo, int pageSize) {
+        return PageRequest.of(pageNo,pageSize);
+    }
+
+
 }
