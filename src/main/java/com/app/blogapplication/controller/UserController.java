@@ -46,6 +46,6 @@ public class UserController {
         user.setEmail(request.getParameter("email"));
         user.setPassword(request.getParameter("password"));
         userService.registerUser(user);
-        return "home";
+        return "redirect:/";
     }
 }
