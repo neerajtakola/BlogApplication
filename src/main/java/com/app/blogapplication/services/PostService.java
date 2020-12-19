@@ -4,8 +4,9 @@ import com.app.blogapplication.dao.IPostRepository;
 import com.app.blogapplication.entities.Post;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 
 @Service
@@ -15,23 +16,30 @@ public class PostService implements  IPostService{
     private IPostRepository postRepository;
 
     @Override
+    public List<Post> getPosts(String text, Pageable pageable) {
+        return postRepository.findAll(text,findPaginated(0,2));
+    }
+
+    @Override
     public void savePost(Post post) {
         postRepository.save(post);
     }
+
     @Override
-    public Post showPostById(int id) {
-        return postRepository.getOne(id);
+    public Post getPost(int id) {
+       return postRepository.getOne(id);
+    }
+
+    @Override
+    public void deletePost(Post post) {
+        postRepository.delete(post);
     }
 
 
     @Override
-    public void deletePostById(int id) {
-        postRepository.deleteById(id);
+    public Pageable findPaginated(int pageNo, int pageSize) {
+        return PageRequest.of(pageNo,pageSize);
     }
 
-    @Override
-    public List<Post> getPosts(String searchText) {
-        return postRepository.findAllByText(searchText);
-    }
 
 }

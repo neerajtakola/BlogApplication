@@ -1,10 +1,20 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Comments</title>
 </head>
 <body>
+<div class="main">
+    <div th:each="comment : ${comments}" class="blog">
+        <span><b>Name</b></span><p th:text="${comment.name}"></p>
+        <span><b>Email</b></span><p th:text="${comment.email}"></p>
+        <span><b>Comment</b></span><p th:text="${comment.content}"></p>
+        <a th:href="@{/update-comment/{id}(id=${comment.id})/{post-id}(post-id=${post.id})}">Update Comment</a>
+    </div>
+    <a th:href="@{/add-comment/{post-id}(post-id =${post.id})}">Add Comment</a>
 
+
+</div>
 </body>
 </html>

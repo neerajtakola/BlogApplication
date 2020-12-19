@@ -5,15 +5,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "User_Details")
+@Table(name = "user_details")
 public class User {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String name;
     private String email;
     private String password;
-    @OneToMany(mappedBy = "author", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "author", cascade = CascadeType.ALL,fetch = FetchType.LAZY)
     private List<Post> posts = new ArrayList<>();
 
     public int getId() {
@@ -55,6 +55,17 @@ public class User {
     public void setPosts(List<Post> posts) {
         this.posts = posts;
     }
+
+    public void addPost(Post post){
+        posts.add(post);
+        post.setAuthor(this);
+    }
+    public void removePost(Post post){
+        posts.remove(post);
+        post.setAuthor(null);
+    }
+
+
 
     @Override
     public String toString() {

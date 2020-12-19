@@ -26,5 +26,8 @@ public class UserService implements IUserService{
         return userRepository.getOne(id);
     }
 
-
+    @Override
+    public User findUserByEmail(String email) {
+        return userRepository.findByEmailLike(email);
+    }
 }

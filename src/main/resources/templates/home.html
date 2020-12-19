@@ -34,9 +34,9 @@
     <div>
         <form action="">
             <label>Filter</label>
-            <select id="filter" name="filter">
-                <option value="Date">Date</option>
-                <option value="Author">Author</option>
+            <select id="filter" name="searchText">
+                <option value="mvc">Spring mvc</option>
+                <option value="boot">Spring boot</option>
             </select>
             <input type="submit">
         </form>
@@ -54,7 +54,6 @@
         <span><b>Title</b></span><p th:text="${post.title}"></p>
         <span><b>Excerpt</b></span><p th:text="${post.excerpt}"></p>
         <span><b>Author</b></span><p th:text="${post.author.name}"></p>
-        <span><b>Date</b></span><p th:text="${post.createdAt}"></p>
         <a th:href="@{/view-post/{id}(id = ${post.id})}">View Post</a>
         <a th:href="@{delete/{id}(id =${post.id})}">Delete Post</a>
         <a th:href="@{update/{id}(id =${post.id})}">Update Post</a>
@@ -62,6 +61,7 @@
 
 
 </div>
+
 
 
 </body>

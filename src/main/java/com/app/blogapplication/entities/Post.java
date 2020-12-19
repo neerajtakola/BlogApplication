@@ -3,25 +3,31 @@ package com.app.blogapplication.entities;
 import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 
 @Entity
 public class Post {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String title;
     private String excerpt;
     @Lob
     @Type(type = "org.hibernate.type.TextType")
     private String content;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private User author;
     private Calendar publishedAt;
     private boolean isPublished;
     private Calendar createdAt = Calendar.getInstance();
     private Calendar updatedAt;
+
+    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
+    private List<Comment> comments = new ArrayList<>();
 
     public int getId() {
         return id;
@@ -37,6 +43,14 @@ public class Post {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public List<Comment> getComments() {
+        return comments;
+    }
+
+    public void setComments(List<Comment> comments) {
+        this.comments = comments;
     }
 
     public String getExcerpt() {
@@ -63,13 +77,6 @@ public class Post {
         this.author = author;
     }
 
-    public Calendar getPublishedAt() {
-        return publishedAt;
-    }
-
-    public void setPublishedAt(Calendar publishedAt) {
-        this.publishedAt = publishedAt;
-    }
 
     public boolean isPublished() {
         return isPublished;
@@ -77,6 +84,14 @@ public class Post {
 
     public void setPublished(boolean published) {
         isPublished = published;
+    }
+
+    public Calendar getPublishedAt() {
+        return publishedAt;
+    }
+
+    public void setPublishedAt(Calendar publishedAt) {
+        this.publishedAt = publishedAt;
     }
 
     public Calendar getCreatedAt() {
@@ -102,7 +117,6 @@ public class Post {
                 ", title='" + title + '\'' +
                 ", excerpt='" + excerpt + '\'' +
                 ", content='" + content + '\'' +
-                ", author=" + author.getName() +
                 ", publishedAt=" + publishedAt +
                 ", isPublished=" + isPublished +
                 ", createdAt=" + createdAt +

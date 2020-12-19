@@ -13,7 +13,7 @@ public class CommentService implements ICommentService{
     private ICommentRepository commentRepository;
 
     @Override
-    public List<Comment> getComments(int id) {
+    public List<Comment> getCommentsOfPost(int id) {
        return commentRepository.findAll(id);
     }
 
@@ -33,7 +33,8 @@ public class CommentService implements ICommentService{
     }
 
     @Override
-    public Comment showPostById(int id) {
+    public Comment getCommentById(int id) {
        return commentRepository.getOne(id);
     }
+
 }

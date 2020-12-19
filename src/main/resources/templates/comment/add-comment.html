@@ -1,10 +1,15 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Comment Page</title>
 </head>
 <body>
-
+<form action="#" th:action="@{/add-comment/{post-id}(post-id=${post})}" method="post">
+    <input type="text" name="name" placeholder="name">
+    <input type="text" name="email" placeholder="email">
+    <textarea name="content" rows="5" cols="20"></textarea>
+    <button type="submit">Add Comment</button>
+</form>
 </body>
 </html>
