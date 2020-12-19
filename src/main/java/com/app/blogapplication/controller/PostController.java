@@ -1,6 +1,7 @@
 package com.app.blogapplication.controller;
 
 import com.app.blogapplication.entities.Post;
+import com.app.blogapplication.entities.User;
 import com.app.blogapplication.services.IPostService;
 import com.app.blogapplication.services.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,61 +22,65 @@ import java.util.Optional;
 @Controller
 public class PostController {
 
-    private final IPostService postService;
-    private final IUserService userService;
+    @Autowired
+    private IPostService postService;
 
     @Autowired
-    public PostController(IPostService postService, IUserService userService){
-        this.postService = postService;
-        this.userService = userService;
-        }
+    private IUserService userService;
 
-    @RequestMapping(value = "/")
-    public String showPosts(Model model, @RequestParam Optional<String> searchText){
-        model.addAttribute("posts",postService.getPosts(searchText.orElse("_")));
+    @RequestMapping("/")
+    public String showPosts(Model model,@RequestParam Optional<String> searchText){
+        model.addAttribute("posts",postService.getPosts(searchText.orElse("_"),postService.findPaginated(0,2)));
         return "home";
     }
 
-    @RequestMapping(value = "/view-post/{id}")
-    public String showPost(@PathVariable("id") int id, Model model){
-        model.addAttribute("post",postService.showPostById(id));
-        return "post/show-post";
-    }
-
-
-    @GetMapping(value = "/new-post")
-    public String newPost(){
+    @GetMapping("/new-post")
+    public String sumitPost(){
         return "post/edit";
     }
 
-    @PostMapping(value = "/new-post")
-    public String submitPost(@RequestParam String title,@RequestParam String excerpt,@RequestParam String content) throws IOException {
+    @PostMapping("/new-post")
+    public String savePost(@RequestParam String title,@RequestParam String content, @RequestParam String excerpt,@RequestParam String email){
         Post post = new Post();
-        post.setTitle(title);
         post.setContent(content);
+        post.setTitle(title);
         post.setExcerpt(excerpt);
-        post.setPublished(true);
+        User user = (User) userService.findUserByEmail(email);
+        if(user == null){
+           user = new User();
+           user.setName("Guest");
+           user.setEmail(email);
+        }
+        post.setAuthor(user);
         postService.savePost(post);
         return "redirect:/";
     }
 
-
-    @RequestMapping(value = "/delete/{id}")
-    public String deletePost(@PathVariable("id") int id) throws IOException {
-        postService.deletePostById(id);
-        return "redirect:/";
+    @RequestMapping("/update/{id}")
+    public String showEditForm(Model model,@PathVariable int id){
+       Post post = postService.getPost(id);
+       model.addAttribute("post",post);
+       return "post/update";
     }
 
-    @RequestMapping(value = "/update/{id}")
-    public String updatePost(@PathVariable("id") int id, Model model){
-        Post post = postService.showPostById(id);
-        model.addAttribute("post",post);
-        return "post/update";
-    }
-
-    @PostMapping(value="/update/{id}")
-        public String updatePost(@ModelAttribute("post") Post post){
+    @PostMapping("/update/{id}")
+    public String updatePost(@ModelAttribute Post post){
         postService.savePost(post);
         return "redirect:/";
     }
+
+    @RequestMapping("/delete/{id}")
+    public String deletePost(@PathVariable int id){
+        Post post = postService.getPost(id);
+        post.setAuthor(null);
+        postService.deletePost(post);
+        return "redirect:/";
+    }
+
+    @RequestMapping("/view-post/{id}")
+    public String showPost(@PathVariable int id,Model model){
+        model.addAttribute("post",postService.getPost(id));
+        return "post/show-post";
+    }
+
 }
