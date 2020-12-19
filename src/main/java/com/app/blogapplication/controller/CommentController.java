@@ -1,10 +1,11 @@
 package com.app.blogapplication.controller;
 
 import com.app.blogapplication.entities.Comment;
+import com.app.blogapplication.entities.Post;
 import com.app.blogapplication.services.ICommentService;
+import com.app.blogapplication.services.IPostService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.stereotype.Repository;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,33 +14,40 @@ public class CommentController {
     @Autowired
     private ICommentService commentService;
 
-    @RequestMapping(value = "/comment/{id}")
-    public String showComments(@PathVariable int id, Model model) {
-        model.addAttribute("comments", commentService.getComments(id));
+    @Autowired
+    private IPostService postService;
+
+    @RequestMapping("/comments/{id}")
+    public String showComments(Model model,@PathVariable int id){
+        model.addAttribute("post",postService.getPost(id));
+        model.addAttribute("comments",commentService.getCommentsOfPost(id));
         return "comment/show-comments";
     }
 
-    @GetMapping(value="/add-comment/{id}")
-    public String showCommentForm(@PathVariable int id){
-       return "comment/add-comment";
+    @GetMapping(value="/add-comment/{post-id}")
+    public String showCommentForm(@PathVariable("post-id") int id, Model model){
+       model.addAttribute("post",id);
+        return "comment/add-comment";
     }
 
-    @PostMapping(value ="/add-comment")
-    public String addComment(@RequestParam String name,@RequestParam String email, @RequestParam String formComment){
-        Comment comment = new Comment();
-        comment.setComment(formComment);
+    @PostMapping(value="/add-comment/{id}")
+    public String submitComment(@PathVariable int id,@ModelAttribute Comment comment){
+        Post post = postService.getPost(id);
+        comment.setPost(post);
         commentService.addComment(comment);
         return "redirect:/";
     }
 
-
-
-    @RequestMapping(value="/comment-update/{id}")
+    @GetMapping(value="/update-comment/{id}")
     public String updateComment(@PathVariable int id, Model model){
-        Comment comment = commentService.showPostById(id);
+        Comment comment = commentService.getCommentById(id);
         model.addAttribute("comment",comment);
         return "comment/update-comment";
     }
 
-
+    @PostMapping(value="/update-comment/{id}")
+    public String updateComment(@ModelAttribute("comment") Comment comment){
+        commentService.updateComment(comment);
+        return "redirect:/";
+    }
 }
