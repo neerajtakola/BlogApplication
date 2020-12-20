@@ -11,7 +11,7 @@ public class Comment {
     private int id;
     private String name;
     private String email;
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name= "post_id")
     private Post post;
 
@@ -50,6 +50,7 @@ public class Comment {
 
     public void setPost(Post post) {
         this.post = post;
+        post.getComments().add(this);
     }
 
     public String getContent() {

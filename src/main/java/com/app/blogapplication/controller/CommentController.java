@@ -26,12 +26,18 @@ public class CommentController {
 
     @GetMapping(value="/add-comment/{post-id}")
     public String showCommentForm(@PathVariable("post-id") int id, Model model){
-       model.addAttribute("post",id);
+        Comment comment = new Comment();
+        model.addAttribute("post",id);
+        model.addAttribute("comment",comment);
         return "comment/add-comment";
     }
 
     @PostMapping(value="/add-comment/{id}")
-    public String submitComment(@PathVariable int id,@ModelAttribute Comment comment){
+    public String submitComment(@PathVariable int id,@RequestParam String name,@RequestParam String email,@RequestParam String content){
+        Comment comment = new Comment();
+        comment.setName(name);
+        comment.setEmail(email);
+        comment.setContent(content);
         Post post = postService.getPost(id);
         comment.setPost(post);
         commentService.addComment(comment);

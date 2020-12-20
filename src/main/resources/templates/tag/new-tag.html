@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>New Post</title>
+    <style>
+        div {
+            align: center;
+        }
+        .edit {
+            padding: 10px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 50px;
+        }
+        input, textarea {
+            width: 100%;
+            padding: 10px 10px;
+            border: solid 1px #000;
+            margin: 5px 0;
+        }
+
+    </style>
+</head>
+<body>
+<h1 align="center">New Tag</h1>
+<form class="edit" action="new-tag" method="post">
+    <div>
+        <input type="text" name="name" placeholder="Tag Name">
+        <button type="submit">Publish</button>
+    </div>
+</form>
+</body>
+</html>

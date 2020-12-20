@@ -2,9 +2,12 @@ package com.app.blogapplication.controller;
 
 import com.app.blogapplication.entities.Post;
 import com.app.blogapplication.entities.User;
+import com.app.blogapplication.services.ICommentService;
 import com.app.blogapplication.services.IPostService;
+import com.app.blogapplication.services.ITagService;
 import com.app.blogapplication.services.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -22,20 +25,28 @@ import java.util.Optional;
 @Controller
 public class PostController {
 
+    private final int PAGE_SIZE=2;
     @Autowired
     private IPostService postService;
 
     @Autowired
     private IUserService userService;
 
-    @RequestMapping("/")
-    public String showPosts(Model model,@RequestParam Optional<String> searchText){
-        model.addAttribute("posts",postService.getPosts(searchText.orElse("_"),postService.findPaginated(0,2)));
+    @Autowired
+    private ITagService tagService;
+
+    @RequestMapping(path ={"/","/page/{pageNo}"})
+    public String showPosts(Model model,@RequestParam Optional<String> searchText,@PathVariable Optional<Integer> pageNo){
+        Pageable pageable = PageRequest.of(pageNo.orElse(0),PAGE_SIZE);
+        Page<Post> pages = postService.getPages(pageable);
+        model.addAttribute("totalPages", pages.getTotalPages());
+        model.addAttribute("posts",postService.getPosts(searchText.orElse("_"),pageable));
         return "home";
     }
 
     @GetMapping("/new-post")
-    public String sumitPost(){
+    public String submitPost(Model model){
+        model.addAttribute("tags",tagService.getAllTags());
         return "post/edit";
     }
 

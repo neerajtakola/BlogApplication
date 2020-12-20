@@ -17,7 +17,7 @@ public class PostService implements  IPostService{
 
     @Override
     public List<Post> getPosts(String text, Pageable pageable) {
-        return postRepository.findAll(text,findPaginated(0,2));
+        return postRepository.findAll(text,pageable);
     }
 
     @Override
@@ -35,11 +35,9 @@ public class PostService implements  IPostService{
         postRepository.delete(post);
     }
 
-
     @Override
-    public Pageable findPaginated(int pageNo, int pageSize) {
-        return PageRequest.of(pageNo,pageSize);
+    public Page<Post> getPages(Pageable pageable) {
+       return postRepository.findAll(pageable);
     }
-
 
 }
