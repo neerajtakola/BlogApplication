@@ -1,7 +1,7 @@
 package com.app.blogapplication.controller;
 
 import com.app.blogapplication.entities.User;
-import com.app.blogapplication.services.IUserService;
+import com.app.blogapplication.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,10 +13,10 @@ import java.io.IOException;
 
 @Controller
 public class UserController {
-    private final IUserService userService;
+    private final UserService userService;
 
     @Autowired
-    public UserController(IUserService userService){
+    public UserController(UserService userService){
         this.userService = userService;
     }
 

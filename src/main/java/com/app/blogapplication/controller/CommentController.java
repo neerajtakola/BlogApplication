@@ -2,8 +2,8 @@ package com.app.blogapplication.controller;
 
 import com.app.blogapplication.entities.Comment;
 import com.app.blogapplication.entities.Post;
-import com.app.blogapplication.services.ICommentService;
-import com.app.blogapplication.services.IPostService;
+import com.app.blogapplication.services.CommentService;
+import com.app.blogapplication.services.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,10 +12,10 @@ import org.springframework.web.bind.annotation.*;
 @Controller
 public class CommentController {
     @Autowired
-    private ICommentService commentService;
+    private CommentService commentService;
 
     @Autowired
-    private IPostService postService;
+    private PostService postService;
 
     @RequestMapping("/comments/{id}")
     public String showComments(Model model,@PathVariable int id){

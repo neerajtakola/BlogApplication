@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface IPostRepository extends JpaRepository<Post,Integer> {
+public interface PostRepository extends JpaRepository<Post,Integer> {
 
     @Query("select p from Post p where p.title like %?1% or p.content like %?1% or p.excerpt like %?1%")
     List<Post> findAll(String searchText, Pageable pageable);

@@ -3,9 +3,30 @@
 <head>
     <meta charset="UTF-8">
     <title>Comment Page</title>
+    <style>
+        form {
+            align: center;
+        }
+        .edit {
+            padding: 10px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 50px;
+        }
+        input, textarea {
+            width: 100%;
+            padding: 10px 10px;
+            border: solid 1px #000;
+            margin: 5px 0;
+        }
+
+
+
+    </style>
 </head>
 <body>
-<form action="#" th:action="@{/add-comment/{post-id}(post-id=${post})}" method="post">
+<form action="#" th:action="@{/add-comment/{post-id}(post-id=${post})}" class="edit" method="post">
     <input type="text" name="name" placeholder="name">
     <input type="text" name="email" placeholder="email">
     <textarea name="content" rows="5" cols="20"></textarea>

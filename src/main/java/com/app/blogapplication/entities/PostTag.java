@@ -7,6 +7,7 @@ import java.util.Calendar;
 @Entity
 public class PostTag {
     @EmbeddedId
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private PostTagIdentity id;
 
     @ManyToOne
