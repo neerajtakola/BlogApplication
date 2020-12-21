@@ -14,8 +14,8 @@ public class Tag {
 
     private String name;
 
-    @OneToMany(mappedBy = "tag", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<PostTag> posts = new ArrayList<>();
+    @OneToMany(mappedBy = "tag", cascade = CascadeType.MERGE)
+    private List<PostTag> postTags = new ArrayList<>();
 
     private Calendar createdAt = Calendar.getInstance();
     private Calendar updatedAt;
@@ -36,12 +36,12 @@ public class Tag {
         this.name = name;
     }
 
-    public List<PostTag> getPosts() {
-        return posts;
+    public List<PostTag> getPostTags() {
+        return postTags;
     }
 
-    public void setPosts(List<PostTag> posts) {
-        this.posts = posts;
+    public void setPostTags(List<PostTag> postTags) {
+        this.postTags = postTags;
     }
 
     public Calendar getCreatedAt() {
@@ -65,7 +65,7 @@ public class Tag {
         return "Tag{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", posts=" + posts +
+                ", postTags=" + postTags +
                 ", createdAt=" + createdAt +
                 ", updatedAt=" + updatedAt +
                 '}';

@@ -10,7 +10,7 @@ public class PostTagIdentity implements Serializable {
     @Column(name="post_id")
     private int postId;
     @Column(name="tag_id")
-    private int tag;
+    private int tagId;
 
     public int getPostId() {
         return postId;
@@ -20,12 +20,12 @@ public class PostTagIdentity implements Serializable {
         this.postId = postId;
     }
 
-    public int getTag() {
-        return tag;
+    public int getTagId() {
+        return tagId;
     }
 
-    public void setTag(int tag) {
-        this.tag = tag;
+    public void setTagId(int tag) {
+        this.tagId = tag;
     }
 
     @Override
@@ -33,11 +33,11 @@ public class PostTagIdentity implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         PostTagIdentity that = (PostTagIdentity) o;
-        return postId == that.postId && tag == that.tag;
+        return postId == that.postId && tagId == that.tagId;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(postId, tag);
+        return Objects.hash(postId, tagId);
     }
 }

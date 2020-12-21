@@ -11,6 +11,6 @@ public class TagController {
     @RequestMapping("/create-tag")
     public String createTag(Model model){
         model.addAttribute("tag", new Tag());
-        return "tag/new-tag";
+        return "tag/add";
     }
 }

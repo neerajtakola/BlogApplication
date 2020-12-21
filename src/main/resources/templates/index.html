@@ -42,7 +42,15 @@
         </form>
         <form action="">
             <input type="text" placeholder="Search.." name="searchText">
-            <button type="submit">Run Search</button>
+            <button type="submit">Search</button>
+        </form>
+        <form action="">
+            <select id="sort" name="sort">
+                <option value="">SortByPublishedDate</option>
+                <option value="asc">Ascending</option>
+                <option value="desc">Descending</option>
+            </select>
+            <input type="submit">
         </form>
         <a href="login">Login</a>
         <a href="new-post">New Post</a>
@@ -54,13 +62,14 @@
         <span><b>Title</b></span><p th:text="${post.title}"></p>
         <span><b>Excerpt</b></span><p th:text="${post.excerpt}"></p>
         <span><b>Author</b></span><p th:text="${post.author.name}"></p>
+        <span><b>Published At</b></span><p th:text="${post.publishedAt}"></p>
         <a th:href="@{/view-post/{id}(id = ${post.id})}">View Post</a>
         <a th:href="@{delete/{id}(id =${post.id})}">Delete Post</a>
         <a th:href="@{update/{id}(id =${post.id})}">Update Post</a>
     </div>
 </div>
-
-
-
+<div th:each="page : ${#numbers.sequence(1,pages)}">
+    <a th:text="${page}" th:href="@{'/?start='+${page - 1}+'&limit=10'}"></a>
+</div>
 </body>
 </html>

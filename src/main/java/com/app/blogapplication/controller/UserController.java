@@ -4,12 +4,12 @@ import com.app.blogapplication.entities.User;
 import com.app.blogapplication.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 
 @Controller
 public class UserController {
@@ -26,25 +26,21 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public void processLoginForm(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        String email = request.getParameter("email");
-        String password = request.getParameter("password");
-        response.setContentType("text/html");
-        response.getWriter().write(userService.validateUser(email,password));
-        response.setHeader("Refresh","2;/");
+    public String processLoginForm(@RequestParam String email,@RequestParam String password){
+        if(userService.validateUser(email,password)){
+            return "redirect:/user";
+        }
+        return "redirect:/";
     }
 
     @GetMapping(value = "/register")
-    public String showRegistrationForm(){
+    public String showRegistrationForm(Model model){
+        model.addAttribute("user",new User());
         return "user/register";
     }
 
     @PostMapping(value = "/register")
-    public String processRegistrationForm(HttpServletRequest request){
-        User user = new User();
-        user.setName(request.getParameter("name"));
-        user.setEmail(request.getParameter("email"));
-        user.setPassword(request.getParameter("password"));
+    public String processRegistrationForm(@ModelAttribute User user){
         userService.registerUser(user);
         return "redirect:/";
     }

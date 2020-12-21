@@ -15,11 +15,6 @@ public class PostServiceImpl implements PostService {
     private PostRepository postRepository;
 
     @Override
-    public List<Post> getPosts(String text, Pageable pageable) {
-        return postRepository.findAll(text,pageable);
-    }
-
-    @Override
     public void savePost(Post post) {
         postRepository.save(post);
     }
@@ -35,8 +30,8 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public Page<Post> getPages(Pageable pageable) {
-       return postRepository.findAll(pageable);
+    public Page<Post> getPages(String searchText, Pageable pageable) {
+        return postRepository.findAllByText(searchText,pageable);
     }
 
 }

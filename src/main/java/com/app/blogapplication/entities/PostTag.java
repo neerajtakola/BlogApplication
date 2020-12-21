@@ -1,33 +1,25 @@
 package com.app.blogapplication.entities;
 
 import javax.persistence.*;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Calendar;
 
 @Entity
 public class PostTag {
     @EmbeddedId
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private PostTagIdentity id;
+    private PostTagIdentity postTagIdentity = new PostTagIdentity();
 
     @ManyToOne
     @MapsId("postId")
     private Post post;
 
     @ManyToOne
-    @MapsId("tag")
+    @MapsId("tagId")
     private Tag tag;
 
-    private Calendar createdAt = Calendar.getInstance();
-    private Calendar updatedAt;
+    private LocalDateTime createdAt = LocalDateTime.now();
+    private LocalDateTime updatedAt;
 
-    public PostTagIdentity getId() {
-        return id;
-    }
-
-    public void setId(PostTagIdentity id) {
-        this.id = id;
-    }
 
     public Post getPost() {
         return post;
@@ -45,30 +37,38 @@ public class PostTag {
         this.tag = tag;
     }
 
-    public Calendar getCreatedAt() {
+    public LocalDateTime getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(Calendar createdAt) {
+    public void setCreatedAt(LocalDateTime createdAt) {
         this.createdAt = createdAt;
     }
 
-    public Calendar getUpdatedAt() {
+    public LocalDateTime getUpdatedAt() {
         return updatedAt;
     }
 
-    public void setUpdatedAt(Calendar updatedAt) {
+    public void setUpdatedAt(LocalDateTime updatedAt) {
         this.updatedAt = updatedAt;
     }
 
     @Override
     public String toString() {
         return "PostTag{" +
-                "id=" + id +
+                "postTagIdentity=" + postTagIdentity +
                 ", post=" + post +
                 ", tag=" + tag +
                 ", createdAt=" + createdAt +
                 ", updatedAt=" + updatedAt +
                 '}';
+    }
+
+    public PostTagIdentity getPostTagIdentity() {
+        return postTagIdentity;
+    }
+
+    public void setPostTagIdentity(PostTagIdentity postTagIdentity) {
+        this.postTagIdentity = postTagIdentity;
     }
 }

@@ -12,8 +12,8 @@ public class UserServiceImpl implements UserService {
 
 
     @Override
-    public String validateUser(String email, String password) {
-        return "The user is authentic";
+    public boolean validateUser(String email, String password) {
+        return true;
     }
 
     @Override
