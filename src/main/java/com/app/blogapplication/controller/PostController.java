@@ -13,6 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -43,7 +44,15 @@ public class PostController {
 
     @RequestMapping("/filter")
     public String showParams(@RequestParam(required=false) Integer authorId, @RequestParam(required = false) int tagId,Model model){
-        model.addAttribute("posts",postService.getPostsByAuthor(authorId));
+        List<Post> filteredPosts = new ArrayList<>();
+        for(Post post : postService.getPostsByAuthor(authorId)){
+            for(PostTag postTag : post.getPostTags()){
+                if(postTag.getTag() == tagService.getTagById(tagId)){
+                    filteredPosts.add(post);
+                }
+            }
+        }
+        model.addAttribute("posts",filteredPosts);
         return "filter/index";
     }
 
