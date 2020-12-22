@@ -11,6 +11,7 @@
         <span><b>Email</b></span><p th:text="${comment.email}"></p>
         <span><b>Comment</b></span><p th:text="${comment.content}"></p>
         <a th:href="@{/update-comment/{id}(id=${comment.id})}">Update Comment</a>
+        <a th:href="@{/delete-comment/{id}(id=${comment.id})}">Delete Comment</a>
     </div>
     <a th:href="@{/add-comment/{post-id}(post-id =${post.id})}">Add Comment</a>
 

@@ -14,7 +14,8 @@ public class Comment {
     private int id;
     private String name;
     private String email;
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = { CascadeType.DETACH,CascadeType.MERGE,
+                            CascadeType.PERSIST,CascadeType.REFRESH})
     @JoinColumn(name= "post_id")
     private Post post;
 

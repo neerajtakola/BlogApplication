@@ -32,8 +32,7 @@ public class PostController {
     @RequestMapping(path ="/")
     public String showPosts(Model model, @RequestParam Optional<String> searchText, @RequestParam("start") Optional<Integer> pageNo, @RequestParam("limit") Optional<Integer> pageSize,@RequestParam Optional<String> sort){
         Page<Post> pages = postService.getPages(searchText.orElse("_"),
-                PageRequest.of(pageNo.orElse(0),pageSize.orElse(10),
-                        sort.orElse("asc").equals("asc") ?Sort.by("publishedAt").ascending():Sort.by("publishedAt").descending()));
+                PageRequest.of(pageNo.orElse(0),pageSize.orElse(10),sort.orElse("asc").equals("asc") ?Sort.by("publishedAt").ascending():Sort.by("publishedAt").descending()));
         model.addAttribute("pages", pages.getTotalPages());
         model.addAttribute("posts",pages.getContent());
         return "index";
@@ -76,7 +75,7 @@ public class PostController {
     }
 
     @RequestMapping("/delete/{id}")
-    public String deletePost(@PathVariable int postId){
+    public String deletePost(@PathVariable("id") int postId){
         Post post = postService.getPost(postId);
         post.setAuthor(null);
         postService.deletePost(post);
@@ -84,8 +83,8 @@ public class PostController {
     }
 
     @RequestMapping("/view-post/{id}")
-    public String showPost(@PathVariable int id,Model model){
-        model.addAttribute("post",postService.getPost(id));
+    public String showPost(@PathVariable("id") int postId,Model model){
+        model.addAttribute("post",postService.getPost(postId));
         return "post/show-post";
     }
 }
