@@ -57,7 +57,6 @@ public class PostTag {
     public String toString() {
         return "PostTag{" +
                 "postTagIdentity=" + postTagIdentity +
-                ", post=" + post +
                 ", tag=" + tag +
                 ", createdAt=" + createdAt +
                 ", updatedAt=" + updatedAt +

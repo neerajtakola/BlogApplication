@@ -138,10 +138,12 @@ public class Post {
                 ", title='" + title + '\'' +
                 ", excerpt='" + excerpt + '\'' +
                 ", content='" + content + '\'' +
+                ", author=" + author +
                 ", publishedAt=" + publishedAt +
                 ", isPublished=" + isPublished +
                 ", createdAt=" + createdAt +
                 ", updatedAt=" + updatedAt +
+                ", postTags=" + postTags +
                 '}';
     }
 }

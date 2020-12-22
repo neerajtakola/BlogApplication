@@ -63,9 +63,15 @@
         <span><b>Excerpt</b></span><p th:text="${post.excerpt}"></p>
         <span><b>Author</b></span><p th:text="${post.author.name}"></p>
         <span><b>Published At</b></span><p th:text="${post.publishedAt}"></p>
+        <span><b>Tags</b></span>
+        <div th:each="postTag : ${post.postTags}">
+            <p th:text="${postTag.tag.name}"></p>
+        </div>
+        <div>
         <a th:href="@{/view-post/{id}(id = ${post.id})}">View Post</a>
         <a th:href="@{delete/{id}(id =${post.id})}">Delete Post</a>
         <a th:href="@{update/{id}(id =${post.id})}">Update Post</a>
+        </div>
     </div>
 </div>
 <div th:each="page : ${#numbers.sequence(1,pages)}">

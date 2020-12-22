@@ -2,6 +2,7 @@ package com.app.blogapplication.services;
 
 import com.app.blogapplication.dao.PostRepository;
 import com.app.blogapplication.dao.PostTagRepository;
+import com.app.blogapplication.entities.Post;
 import com.app.blogapplication.entities.PostTag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,7 +21,12 @@ public class PostTagServiceImpl implements PostTagService {
     }
 
     @Override
-    public List<PostTag> getAll() {
-        return postTagRepository.findAll();
+    public List<PostTag> getAll(Post post) {
+        return postTagRepository.findAllByPost(post);
+    }
+
+    @Override
+    public void deletePostTag(PostTag postTag) {
+            postTagRepository.delete(postTag);
     }
 }

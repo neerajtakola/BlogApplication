@@ -2,6 +2,7 @@ package com.app.blogapplication.controller;
 
 import com.app.blogapplication.entities.*;
 import com.app.blogapplication.services.PostService;
+import com.app.blogapplication.services.PostTagService;
 import com.app.blogapplication.services.TagService;
 import com.app.blogapplication.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,13 +22,15 @@ public class PostController {
     private final PostService postService;
     private final UserService userService;
     private final TagService tagService;
+    private final PostTagService postTagService;
 
     @Autowired
-    public PostController(PostService postService, UserService userService, TagService tagService) {
+    public PostController(PostService postService, UserService userService, TagService tagService, PostTagService postTagService) {
         this.postService = postService;
         this.userService = userService;
         this.tagService = tagService;
-      }
+        this.postTagService = postTagService;
+    }
 
     @RequestMapping(path ="/")
     public String showPosts(Model model, @RequestParam Optional<String> searchText, @RequestParam("start") Optional<Integer> pageNo, @RequestParam("limit") Optional<Integer> pageSize,@RequestParam Optional<String> sort){
@@ -46,7 +49,7 @@ public class PostController {
     }
 
     @PostMapping("/new-post")
-    public String savePost(@ModelAttribute Post post,@RequestParam String email,@RequestParam Optional<List<Integer>> tags){
+    public String savePost(@ModelAttribute Post post,@RequestParam String email,@RequestParam(required = false) List<Integer> tags){
         User user = (User) userService.findUserByEmail(email);
         if(user == null){
             user = new User();
@@ -54,11 +57,14 @@ public class PostController {
             user.setEmail(email);
         }
         post.setAuthor(user);
-       /* for(int tagId : tags.orElse(Arrays.asList(0))) {
-            Tag tag = tagService.getTagById(tagId);
-            post.g
-        }*/
         postService.savePost(post);
+        for(int tagId : tags) {
+            Tag tag = tagService.getTagById(tagId);
+            PostTag postTag = new PostTag();
+            postTag.setPost(post);
+            postTag.setTag(tag);
+            postTagService.savePostTag(postTag);
+        }
         return "redirect:/";
     }
 
@@ -77,6 +83,9 @@ public class PostController {
     @RequestMapping("/delete/{id}")
     public String deletePost(@PathVariable("id") int postId){
         Post post = postService.getPost(postId);
+        for(PostTag postTag : postTagService.getAll(post)){
+            postTagService.deletePostTag(postTag);
+        }
         post.setAuthor(null);
         postService.deletePost(post);
         return "redirect:/";

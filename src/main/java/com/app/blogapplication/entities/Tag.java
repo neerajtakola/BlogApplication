@@ -65,7 +65,6 @@ public class Tag {
         return "Tag{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", postTags=" + postTags +
                 ", createdAt=" + createdAt +
                 ", updatedAt=" + updatedAt +
                 '}';
