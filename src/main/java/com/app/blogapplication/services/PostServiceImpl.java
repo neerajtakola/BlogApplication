@@ -34,4 +34,9 @@ public class PostServiceImpl implements PostService {
         return postRepository.findAllByText(searchText,pageable);
     }
 
+    @Override
+    public List<Post> getPostsByAuthor(Integer authorId) {
+        return postRepository.findAllByAuthor(authorId);
+    }
+
 }

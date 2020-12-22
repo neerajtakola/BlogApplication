@@ -14,7 +14,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Locale;
 import java.util.Optional;
 
 @Controller
@@ -41,6 +40,13 @@ public class PostController {
         model.addAttribute("posts",pages.getContent());
         return "index";
     }
+
+    @RequestMapping("/filter")
+    public String showParams(@RequestParam(required=false) Integer authorId, @RequestParam(required = false) int tagId,Model model){
+        model.addAttribute("posts",postService.getPostsByAuthor(authorId));
+        return "filter/index";
+    }
+
 
     @GetMapping("/new-post")
     public String submitPost(Model model){

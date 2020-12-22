@@ -12,4 +12,5 @@ public interface PostService {
     void deletePost(Post post);
     Page<Post> getPages(String searchText,Pageable pageable);
 
+    List<Post> getPostsByAuthor(Integer authorId);
 }

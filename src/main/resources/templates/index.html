@@ -32,15 +32,19 @@
         <h4>My Blog Application</h4> Hi there
     </div>
     <div>
-        <form action="">
+        <form action="filter">
             <label>Filter</label>
-            <select id="filter" name="searchText">
-                <option value="spring">Spring</option>
-                <option value="Technology">Technology</option>
-                <option value="neeraj">Neeraj</option>
-                <option value="technology">Technology</option>
-                <option value="neeraj">Neeraj</option>
-                <option value="2020-12-22">PublishedDate : 2020-12-22</option>
+            <select  name="authorId">
+                <div th:each="post : ${posts}">
+                    <option th:value="${post.author.id}">[[${post.author.name}]]</option>
+                   </div>
+            </select>
+            <select  name="tagId">
+                <div th:each="post : ${posts}">
+                    <div th:each="postTag : ${post.postTags}">
+                    <option th:value="${postTag.tag.id}">[[${postTag.tag.name}]]</option>
+                    </div>
+                </div>
             </select>
             <input type="submit">
         </form>
