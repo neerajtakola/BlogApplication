@@ -1,6 +1,6 @@
-package com.app.blogapplication.services;
+package com.app.blogapplication.service;
 
-import com.app.blogapplication.entities.User;
+import com.app.blogapplication.entity.User;
 
 public interface UserService {
     boolean validateUser(String email, String password);

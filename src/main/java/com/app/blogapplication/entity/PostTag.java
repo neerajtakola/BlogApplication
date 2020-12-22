@@ -1,8 +1,7 @@
-package com.app.blogapplication.entities;
+package com.app.blogapplication.entity;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.Calendar;
 
 @Entity
 public class PostTag {

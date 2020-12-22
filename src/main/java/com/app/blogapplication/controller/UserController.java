@@ -1,7 +1,7 @@
 package com.app.blogapplication.controller;
 
-import com.app.blogapplication.entities.User;
-import com.app.blogapplication.services.UserService;
+import com.app.blogapplication.entity.User;
+import com.app.blogapplication.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

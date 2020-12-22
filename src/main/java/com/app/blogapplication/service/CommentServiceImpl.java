@@ -1,7 +1,7 @@
-package com.app.blogapplication.services;
+package com.app.blogapplication.service;
 
-import com.app.blogapplication.dao.CommentRepository;
-import com.app.blogapplication.entities.Comment;
+import com.app.blogapplication.repository.CommentRepository;
+import com.app.blogapplication.entity.Comment;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

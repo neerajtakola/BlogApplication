@@ -1,6 +1,6 @@
-package com.app.blogapplication.dao;
+package com.app.blogapplication.repository;
 
-import com.app.blogapplication.entities.Comment;
+import com.app.blogapplication.entity.Comment;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;

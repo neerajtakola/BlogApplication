@@ -1,6 +1,6 @@
-package com.app.blogapplication.services;
+package com.app.blogapplication.service;
 
-import com.app.blogapplication.entities.Tag;
+import com.app.blogapplication.entity.Tag;
 
 import java.util.List;
 

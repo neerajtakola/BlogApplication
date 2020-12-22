@@ -1,12 +1,10 @@
-package com.app.blogapplication.entities;
+package com.app.blogapplication.entity;
 
 import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 

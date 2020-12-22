@@ -1,4 +1,4 @@
-package com.app.blogapplication.entities;
+package com.app.blogapplication.entity;
 
 import javax.persistence.*;
 import java.util.ArrayList;

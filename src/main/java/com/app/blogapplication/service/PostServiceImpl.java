@@ -1,11 +1,12 @@
-package com.app.blogapplication.services;
+package com.app.blogapplication.service;
 
-import com.app.blogapplication.dao.PostRepository;
-import com.app.blogapplication.entities.Post;
+import com.app.blogapplication.repository.PostRepository;
+import com.app.blogapplication.entity.Post;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+
 import java.util.List;
 
 @Service
@@ -21,7 +22,7 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public Post getPost(int id) {
-       return postRepository.getOne(id);
+        return postRepository.getOne(id);
     }
 
     @Override
@@ -31,7 +32,7 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public Page<Post> getPages(String searchText, Pageable pageable) {
-        return postRepository.findAllByText(searchText,pageable);
+        return postRepository.findAllByText(searchText, pageable);
     }
 
     @Override

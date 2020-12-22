@@ -9,19 +9,20 @@
             align-items: flex-end;
             margin: 2em 0;
         }
+
         .main {
             display: grid;
             grid-template-columns: 50% 50%;
             gap: 1em 1.1em;
             margin-top: 1em;
         }
-        .main>div {
+
+        .main > div {
             border: solid 1px #000;
             padding: .6em;
         }
 
     </style>
-
 
 
 </head>
@@ -34,16 +35,24 @@
     <div>
         <form action="filter">
             <label>Filter</label>
-            <select  name="authorId">
+            <select name="authorId">
                 <div th:each="post : ${posts}">
+                    <option>Author</option>
                     <option th:value="${post.author.id}">[[${post.author.name}]]</option>
-                   </div>
+                </div>
             </select>
-            <select  name="tagId">
+            <select name="tagId">
+                <option>Tag</option>
                 <div th:each="post : ${posts}">
                     <div th:each="postTag : ${post.postTags}">
-                    <option th:value="${postTag.tag.id}">[[${postTag.tag.name}]]</option>
+                        <option th:value="${postTag.tag.id}">[[${postTag.tag.name}]]</option>
                     </div>
+                </div>
+            </select>
+            <select name="pubishedDate">
+                <option>Date</option>
+                <div th:each="post : ${posts}">
+                    <option th:value="${post.publishedAt}">[[${post.publishedAt}]]</option>
                 </div>
             </select>
             <input type="submit">
@@ -67,18 +76,22 @@
 <h4>Hot Topics :</h4>
 <div class="main">
     <div th:each="post : ${posts}" class="blog">
-        <span><b>Title</b></span><p th:text="${post.title}"></p>
-        <span><b>Excerpt</b></span><p th:text="${post.excerpt}"></p>
-        <span><b>Author</b></span><p th:text="${post.author.name}"></p>
-        <span><b>Published At</b></span><p th:text="${post.publishedAt}"></p>
+        <span><b>Title</b></span>
+        <p th:text="${post.title}"></p>
+        <span><b>Excerpt</b></span>
+        <p th:text="${post.excerpt}"></p>
+        <span><b>Author</b></span>
+        <p th:text="${post.author.name}"></p>
+        <span><b>Published At</b></span>
+        <p th:text="${post.publishedAt}"></p>
         <span><b>Tags</b></span>
         <div th:each="postTag : ${post.postTags}">
             <p th:text="${postTag.tag.name}"></p>
         </div>
         <div>
-        <a th:href="@{/view-post/{id}(id = ${post.id})}">View Post</a>
-        <a th:href="@{delete/{id}(id =${post.id})}">Delete Post</a>
-        <a th:href="@{update/{id}(id =${post.id})}">Update Post</a>
+            <a th:href="@{/view-post/{id}(id = ${post.id})}">View Post</a>
+            <a th:href="@{delete/{id}(id =${post.id})}">Delete Post</a>
+            <a th:href="@{update/{id}(id =${post.id})}">Update Post</a>
         </div>
     </div>
 </div>

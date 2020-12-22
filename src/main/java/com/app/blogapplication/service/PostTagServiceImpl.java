@@ -1,9 +1,8 @@
-package com.app.blogapplication.services;
+package com.app.blogapplication.service;
 
-import com.app.blogapplication.dao.PostRepository;
-import com.app.blogapplication.dao.PostTagRepository;
-import com.app.blogapplication.entities.Post;
-import com.app.blogapplication.entities.PostTag;
+import com.app.blogapplication.repository.PostTagRepository;
+import com.app.blogapplication.entity.Post;
+import com.app.blogapplication.entity.PostTag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

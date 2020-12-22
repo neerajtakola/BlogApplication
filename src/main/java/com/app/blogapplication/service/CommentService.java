@@ -1,6 +1,6 @@
-package com.app.blogapplication.services;
+package com.app.blogapplication.service;
 
-import com.app.blogapplication.entities.Comment;
+import com.app.blogapplication.entity.Comment;
 
 import java.util.List;
 

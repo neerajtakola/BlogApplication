@@ -1,6 +1,6 @@
-package com.app.blogapplication.dao;
+package com.app.blogapplication.repository;
 
-import com.app.blogapplication.entities.Tag;
+import com.app.blogapplication.entity.Tag;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

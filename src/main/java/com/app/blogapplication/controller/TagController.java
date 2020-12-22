@@ -1,6 +1,6 @@
 package com.app.blogapplication.controller;
 
-import com.app.blogapplication.entities.Tag;
+import com.app.blogapplication.entity.Tag;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
