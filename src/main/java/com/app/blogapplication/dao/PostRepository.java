@@ -9,6 +9,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface PostRepository extends JpaRepository<Post,Integer> {
-    @Query("select p from Post p where p.title like %?1% or p.excerpt like %?1% or p.content like %?1% or p.author in (select u.id from User u where u.name like %?1%)")
+    @Query("select p from Post p where lower(p.title) like %?1% or lower(p.excerpt) like %?1% or lower(p.content) like %?1% or  p.author in (select u.id from User u where lower(u.name) like %?1%)")
     Page<Post> findAllByText(String searchText, Pageable pageable);
 }
