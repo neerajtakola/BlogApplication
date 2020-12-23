@@ -31,49 +31,46 @@
 <div class="header">
     <div>
         <h4>My Blog Application</h4> Hi there
-    </div>
-    <div>
-        <form action="filter">
-            <label>Filter</label>
-            <select name="authorId">
-                <div th:each="post : ${posts}">
-                    <option>Author</option>
-                    <option th:value="${post.author.id}">[[${post.author.name}]]</option>
-                </div>
-            </select>
-            <select name="tagId">
-                <option>Tag</option>
-                <div th:each="post : ${posts}">
-                    <div th:each="postTag : ${post.postTags}">
-                        <option th:value="${postTag.tag.id}">[[${postTag.tag.name}]]</option>
-                    </div>
-                </div>
-            </select>
-            <select name="pubishedDate">
-                <option>Date</option>
-                <div th:each="post : ${posts}">
-                    <option th:value="${post.publishedAt}">[[${post.publishedAt}]]</option>
-                </div>
-            </select>
-            <input type="submit">
-        </form>
-        <form action="">
-            <input type="text" placeholder="Search.." name="searchText">
-            <button type="submit">Search</button>
-        </form>
-        <form action="">
-            <select id="sort" name="sort">
-                <option value="">SortByPublishedDate</option>
-                <option value="asc">Ascending</option>
-                <option value="desc">Descending</option>
-            </select>
-            <input type="submit">
-        </form>
-        <a href="login">Login</a>
-        <a href="new-post">New Post</a>
+        <div>
+            <form action="filter">
+                <input type="checkbox" id="Samir" name="authorId" value="4">
+                <label for="Samir">Samir</label>
+                <input type="checkbox" id="neeraj" name="authorId" value="10">
+                <label for="neeraj">Nee</label>
+                <br>
+                <input type="checkbox" id="fiction" name="tagId" value="2">
+                <label for="fiction">Fiction</label>
+                <input type="checkbox" id="technology" name="tagId" value="1">
+                <label for="technology">Technology</label>
+                <input type="checkbox" id="spring" name="tagId" value="4">
+                <label for="spring">Spring</label>
+                <input type="checkbox" id="food" name="tagId" value="7">
+                <label for="food">Food</label>
+                <input type="checkbox" id="travel" name="tagId" value="6">
+                <label for="travel">Travel</label>
+                <button type="submit">Filter</button>
+            </form>
+            <form action="">
+                <span>Sort By Date</span><br>
+                <input type="hidden" name="sortedField" value="publishedAt">
+                <input type="radio" id="asc" name="sort" value="asc">
+                <label for="asc">Ascending</label><br>
+                <input type="radio" id="desc" name="sort" value="desc">
+                <label for="desc">Descending</label><br>
+                <button type="submit">Sort</button>
+            </form>
+            <form action="">
+                <input type="text" name="searchText" placeholder="looking for something">
+                <button type="submit">Run Search</button>
+            </form>
+
+
+
+            <a href="login">Login</a>
+            <a href="new-post">New Post</a>
+        </div>
     </div>
 </div>
-<h4>Hot Topics :</h4>
 <div class="main">
     <div th:each="post : ${posts}" class="blog">
         <span><b>Title</b></span>
@@ -83,7 +80,7 @@
         <span><b>Author</b></span>
         <p th:text="${post.author.name}"></p>
         <span><b>Published At</b></span>
-        <p th:text="${post.publishedAt}"></p>
+        <p th:text="${#temporals.format(post.publishedAt,'dd/MM/yyyy HH:mm:ss')}"></p>
         <span><b>Tags</b></span>
         <div th:each="postTag : ${post.postTags}">
             <p th:text="${postTag.tag.name}"></p>

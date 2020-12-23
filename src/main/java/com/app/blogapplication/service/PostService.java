@@ -17,5 +17,10 @@ public interface PostService {
 
     Page<Post> getPages(String searchText, Pageable pageable);
 
-    List<Post> getPostsByAuthor(Integer authorId);
+    List<Post> getAllPostsByAuthor(Integer authorId);
+
+    List<Post> getAllPostsByAuthorsAndTags(List<Integer> authorIds, List<Integer> tagIds);
+
+    List<Post> getAllPostsByTags(List<Integer> tagIds);
+
 }

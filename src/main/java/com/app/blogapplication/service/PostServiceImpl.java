@@ -36,8 +36,22 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public List<Post> getPostsByAuthor(Integer authorId) {
+    public List<Post> getAllPostsByAuthor(Integer authorId) {
         return postRepository.findAllByAuthor(authorId);
+    }
+
+    @Override
+    public List<Post> getAllPostsByAuthorsAndTags(List<Integer> authorIds, List<Integer> tagIds) {
+        return postRepository.findAllByAuthorAndPostTags(authorIds, tagIds);
+    }
+
+    @Override
+    public List<Post> getAllPostsByTags(List<Integer> tagIds) {
+        return postRepository.findAllByTags(tagIds);
+    }
+
+    public List<Post> getAllPosts() {
+        return postRepository.findAll();
     }
 
 }

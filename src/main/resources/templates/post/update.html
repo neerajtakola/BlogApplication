@@ -33,6 +33,10 @@
     <label for="excerpt">Excerpt</label>
     <input type="text" th:field="*{excerpt}" id="excerpt" placeholder="excerpt">
     <input type="hidden" th:field="*{author}" id="author" placeholder="author">
+    <label>Tags</label>
+    <div th:each="postTag : *{postTags}">
+       <input type="checkbox" th:text="${postTag.tag.name}" id="tags">
+    </div>
     <label for="content">Content</label>
     <textarea th:field="*{content}" id="content" placeholder="content" cols="30" rows="15">
     </textarea>

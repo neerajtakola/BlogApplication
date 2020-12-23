@@ -32,10 +32,10 @@
         <input type="text" name="excerpt"  placeholder="Excerpt">
         <input type="text" name="email"  placeholder="Email">
         <span>Available Tags</span>
-        <div th:each="tag : ${tags}">
+        <p th:each="tag : ${tags}">
          <input type="checkbox" id="${tag.name}" name="tags" th:value="${tag.id}">
             <label for="${tag.name}">[[${tag.name}]]</label>
-        </div>
+        </p>
         <textarea name="content" cols="30" rows="15">
         </textarea>
         <button type="submit">Publish</button>

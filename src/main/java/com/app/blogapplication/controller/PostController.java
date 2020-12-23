@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -44,16 +45,19 @@ public class PostController {
     }
 
     @RequestMapping("/filter")
-    public String filterProcess(@RequestParam(required = false) Integer authorId, @RequestParam(required = false) int tagId, @RequestParam(name = "publishedAt", required = false) LocalDateTime date, Model model) {
-        List<Post> filteredPosts = new ArrayList<>();
-        for (Post post : postService.getPostsByAuthor(authorId)) {
-            for (PostTag postTag : post.getPostTags()) {
-                if (postTag.getTag() == tagService.getTagById(tagId)) {
-                    filteredPosts.add(post);
-                }
+    public String filterProcess(@RequestParam(value = "authorId") Optional<List<Integer>> authorIds, @RequestParam(value = "tagId") Optional<List<Integer>> tagIds, Model model) {
+        if (authorIds.isPresent() && tagIds.isPresent()) {
+            model.addAttribute("posts", postService.getAllPostsByAuthorsAndTags(authorIds.orElse(Arrays.asList(0)), tagIds.orElse(Arrays.asList(0))));
+        } else if (authorIds.isPresent() && tagIds.isEmpty()) {
+            List<Post> authorPosts = new ArrayList<>();
+            for (int authorId : authorIds.orElse(Arrays.asList(0))) {
+                List<Post> posts = postService.getAllPostsByAuthor(authorId);
+                authorPosts.addAll(posts);
             }
+            model.addAttribute("posts", authorPosts);
+        } else {
+            model.addAttribute("posts", postService.getAllPostsByTags(tagIds.orElse(Arrays.asList(0))));
         }
-        model.addAttribute("posts", filteredPosts);
         return "filter/index";
     }
 
@@ -87,7 +91,13 @@ public class PostController {
 
     @RequestMapping("/update/{postId}")
     public String showEditForm(Model model, @PathVariable int postId) {
+        Post post = postService.getPost(postId);
+        List<Tag> tags = new ArrayList<>();
+        for (PostTag postTag : post.getPostTags()) {
+            tags.add(postTag.getTag());
+        }
         model.addAttribute("post", postService.getPost(postId));
+        model.addAttribute("postTags", tags);
         return "post/update";
     }
 
@@ -111,6 +121,6 @@ public class PostController {
     @RequestMapping("/view-post/{id}")
     public String showPost(@PathVariable("id") int postId, Model model) {
         model.addAttribute("post", postService.getPost(postId));
-        return "post/show-post";
+        return "post/show";
     }
 }
