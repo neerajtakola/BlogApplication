@@ -50,6 +50,16 @@ public class PostServiceImpl implements PostService {
         return postRepository.findAllByTags(tagIds);
     }
 
+    @Override
+    public List<Post> getAllPostsByTextAndAuthorsAndTags(String searchText, List<Integer> authorIds, List<Integer> tagIds) {
+        return postRepository.findAllByTextAndAuthorAndPostTags(searchText,authorIds,tagIds);
+    }
+
+    @Override
+    public List<Post> getAllPostsByTextAndAuthors(String searchText, List<Integer> authorIds) {
+        return postRepository.findAllByTextAndAuthors(searchText,authorIds);
+    }
+
     public List<Post> getAllPosts() {
         return postRepository.findAll();
     }

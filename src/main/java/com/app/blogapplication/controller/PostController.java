@@ -7,6 +7,7 @@ import com.app.blogapplication.service.TagService;
 import com.app.blogapplication.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
@@ -35,7 +36,7 @@ public class PostController {
         this.postTagService = postTagService;
     }
 
-    @RequestMapping(path = "/")
+    @RequestMapping(path = {"/"})
     public String showPosts(Model model, @RequestParam Optional<String> searchText, @RequestParam("start") Optional<Integer> pageNo, @RequestParam("limit") Optional<Integer> pageSize, @RequestParam Optional<String> sort) {
         Page<Post> pages = postService.getPages(searchText.orElse("_").toLowerCase(),
                 PageRequest.of(pageNo.orElse(0), pageSize.orElse(10), sort.orElse("asc").equals("asc") ? Sort.by("publishedAt").ascending() : Sort.by("publishedAt").descending()));
@@ -45,9 +46,13 @@ public class PostController {
     }
 
     @RequestMapping("/filter")
-    public String filterProcess(@RequestParam(value = "authorId") Optional<List<Integer>> authorIds, @RequestParam(value = "tagId") Optional<List<Integer>> tagIds, Model model) {
+    public String filterProcess(@RequestParam(value = "authorId") Optional<List<Integer>> authorIds, @RequestParam(value = "tagId") Optional<List<Integer>> tagIds, @RequestParam(required = false) String sortField, Model model) {
         if (authorIds.isPresent() && tagIds.isPresent()) {
-            model.addAttribute("posts", postService.getAllPostsByAuthorsAndTags(authorIds.orElse(Arrays.asList(0)), tagIds.orElse(Arrays.asList(0))));
+            List<Post> filteredPosts = postService.getAllPostsByAuthorsAndTags(authorIds.orElse(Arrays.asList(0)),
+                    tagIds.orElse(Arrays.asList(0)));
+            Page<Post> pages = new PageImpl<>(filteredPosts, PageRequest.of(0, 2), filteredPosts.size());
+            model.addAttribute("posts", pages.getContent());
+            model.addAttribute("pages", pages.getTotalPages());
         } else if (authorIds.isPresent() && tagIds.isEmpty()) {
             List<Post> authorPosts = new ArrayList<>();
             for (int authorId : authorIds.orElse(Arrays.asList(0))) {
@@ -61,6 +66,22 @@ public class PostController {
         return "filter/index";
     }
 
+    @GetMapping("/search")
+    public String filterProcess(@RequestParam String searchText, @RequestParam(value = "authorId") Optional<List<Integer>> authorIds, @RequestParam(value = "tagId") Optional<List<Integer>> tagIds, @RequestParam Optional<String> sortField, Model model) {
+        if (authorIds.isEmpty() && tagIds.isEmpty()) {
+            Page<Post> pages = postService.getPages(searchText.toLowerCase(),
+                    PageRequest.of(0, 10, sortField.orElse("asc").equals("asc") ? Sort.by("publishedAt").ascending() : Sort.by("publishedAt").descending()));
+            model.addAttribute("posts", pages.getContent());
+            model.addAttribute("searchText", searchText);
+        } else if (authorIds.isPresent() && tagIds.isEmpty()) {
+
+            List<Post> filteredPosts = postService.getAllPostsByTextAndAuthors(searchText, authorIds.orElse(Arrays.asList(10)));
+            Page<Post> pages = new PageImpl<>(filteredPosts, PageRequest.of(0, 2), filteredPosts.size());
+            model.addAttribute("searchText", searchText);
+            model.addAttribute("posts", pages.getContent());
+        }
+        return "filter/index";
+    }
 
     @GetMapping("/new-post")
     public String submitPost(Model model) {

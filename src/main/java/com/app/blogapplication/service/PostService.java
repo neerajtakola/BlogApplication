@@ -23,4 +23,7 @@ public interface PostService {
 
     List<Post> getAllPostsByTags(List<Integer> tagIds);
 
+    List<Post> getAllPostsByTextAndAuthorsAndTags(String searchText, List<Integer> orElse, List<Integer> orElse1);
+
+    List<Post> getAllPostsByTextAndAuthors(String searchText, List<Integer> authorIds);
 }
