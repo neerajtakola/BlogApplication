@@ -75,12 +75,14 @@ public class PostController {
         }
         post.setAuthor(user);
         postService.savePost(post);
+       if(!tags.isEmpty()) {
         for (int tagId : tags) {
             Tag tag = tagService.getTagById(tagId);
             PostTag postTag = new PostTag();
             postTag.setPost(post);
             postTag.setTag(tag);
             postTagService.savePostTag(postTag);
+        }
         }
         return "redirect:/";
     }
